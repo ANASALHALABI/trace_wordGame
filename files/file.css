@@ -1,0 +1,17 @@
+.container {  /* Assuming the HTML element has a class called 'container' */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;  /* Full width */
+    height: 100%; /* Full height */
+    overflow: hidden; /* Prevents overflow */
+}
+
+#SvgExam {
+    display: block;  /* Removes extra space below the SVG */
+    /* Maximum height as a percentage of the container's height */
+    aspect-ratio: 1;
+	/* Optional: Ensures the SVG keeps a 1:1 aspect ratio */
+}
+
+
