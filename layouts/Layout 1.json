@@ -10,7 +10,7 @@
 					"type": "HTMLElement",
 					"properties": {
 						"tag": "div",
-						"content": "<svg id=\"SvgExam\"></svg>\n\n\n<style>\n        svg {\n            border: 1px solid black;\n        }\n        .interaction-area {\n            fill: transparent;\n            cursor: pointer;\n        }\n        .dot-path {\n            stroke: gray;\n            fill: none;\n        }\n        .dot-fill {\n            stroke: blue;\n            fill: none;\n            display: none;\n        }\n    </style>",
+						"content": "<svg id=\"SvgExam\"></svg>\n\n\n<style>\n        svg {\n            border: 1px solid black;\n            \n        }\n        .interaction-area {\n            fill: transparent;\n            cursor: pointer;\n        }\n        .dot-path {\n            stroke: gray;\n            fill: none;\n        }\n        .dot-fill {\n            stroke: blue;\n            fill: none;\n            display: none;\n        }\n    </style>",
 						"content-type": "html",
 						"initially-visible": true,
 						"id": "",
@@ -167,6 +167,16 @@
 				"depth": 1
 			},
 			"uid": 8,
+			"instanceVariables": {}
+		},
+		{
+			"type": "LearnPathArray",
+			"properties": {
+				"width": 10,
+				"height": 1,
+				"depth": 1
+			},
+			"uid": 9,
 			"instanceVariables": {}
 		}
 	],

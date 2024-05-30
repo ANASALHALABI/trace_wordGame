@@ -5,7 +5,7 @@
 			"eventType": "variable",
 			"name": "Level",
 			"type": "number",
-			"initialValue": "2",
+			"initialValue": "3",
 			"comment": "",
 			"isStatic": false,
 			"isConstant": false,
@@ -240,6 +240,16 @@
 						},
 						{
 							"id": "set-size",
+							"objectClass": "LearnPathArray",
+							"sid": 176000782145599,
+							"parameters": {
+								"width": "JSON.ArraySize(\".strokes\") ",
+								"height": "1",
+								"depth": "1"
+							}
+						},
+						{
+							"id": "set-size",
 							"objectClass": "LetterPointArray",
 							"sid": 170128650078517,
 							"parameters": {
@@ -285,6 +295,31 @@
 						}
 					],
 					"sid": 462275638166396
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "for-each",
+							"objectClass": "JSON",
+							"sid": 863427645753805,
+							"parameters": {
+								"path": "JSON.Path&(\".strokes\")"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-at-x",
+							"objectClass": "LearnPathArray",
+							"sid": 987704104826681,
+							"parameters": {
+								"x": "int(JSON.CurrentKey)",
+								"value": "JSON.CurrentValue"
+							}
+						}
+					],
+					"sid": 407617971995006
 				},
 				{
 					"eventType": "block",

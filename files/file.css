@@ -4,7 +4,7 @@
     align-items: center;
     width: 100%;  /* Full width */
     height: 100%; /* Full height */
-    overflow: hidden; /* Prevents overflow */
+     /* Prevents overflow */
 }
 
 #SvgExam {

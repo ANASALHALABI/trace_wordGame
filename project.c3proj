@@ -62,12 +62,20 @@
 			"HTMLElement",
 			"AJAX",
 			"JSON",
-			"StrokesArray",
-			"LetterPointArray",
-			"Particles_Sponge",
-			"PointsAnimationArray"
+			"Particles_Sponge"
 		],
-		"subfolders": []
+		"subfolders": [
+			{
+				"items": [
+					"LetterPointArray",
+					"PointsAnimationArray",
+					"StrokesArray",
+					"LearnPathArray"
+				],
+				"subfolders": [],
+				"name": "array"
+			}
+		]
 	},
 	"autosaveData": null,
 	"containers": [],
