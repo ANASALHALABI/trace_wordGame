@@ -43,6 +43,13 @@
 		},
 		{
 			"type": "behavior",
+			"id": "Anchor",
+			"name": "Anchor",
+			"author": "Scirra",
+			"bundled": false
+		},
+		{
+			"type": "behavior",
 			"id": "Bullet",
 			"name": "Bullet",
 			"author": "Scirra",
@@ -62,7 +69,8 @@
 			"HTMLElement",
 			"AJAX",
 			"JSON",
-			"Particles_Sponge"
+			"Particles_Sponge",
+			"bg"
 		],
 		"subfolders": [
 			{
