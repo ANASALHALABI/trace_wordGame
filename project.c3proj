@@ -211,6 +211,14 @@
 					"file-info": {
 						"purpose": "none"
 					}
+				},
+				{
+					"name": "row.png",
+					"type": "image/png",
+					"sid": 301633143014329,
+					"file-info": {
+						"purpose": "none"
+					}
 				}
 			],
 			"subfolders": []
