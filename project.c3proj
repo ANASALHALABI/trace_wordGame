@@ -1,7 +1,7 @@
 {
 	"projectFormatVersion": 1,
-	"savedWithRelease": 38802,
-	"name": "SvgExam",
+	"savedWithRelease": 39700,
+	"name": "arabic_write_in_arabic",
 	"runtime": "c3",
 	"useWorker": "auto",
 	"bundleAddons": false,
@@ -17,6 +17,13 @@
 			"type": "plugin",
 			"id": "Arr",
 			"name": "Array",
+			"author": "Scirra",
+			"bundled": false
+		},
+		{
+			"type": "plugin",
+			"id": "Browser",
+			"name": "Browser",
 			"author": "Scirra",
 			"bundled": false
 		},
@@ -38,6 +45,13 @@
 			"type": "plugin",
 			"id": "Sprite",
 			"name": "Sprite",
+			"author": "Scirra",
+			"bundled": false
+		},
+		{
+			"type": "plugin",
+			"id": "Touch",
+			"name": "Touch",
 			"author": "Scirra",
 			"bundled": false
 		},
@@ -70,7 +84,11 @@
 			"AJAX",
 			"JSON",
 			"Particles_Sponge",
-			"bg"
+			"bg",
+			"Btn",
+			"Browser",
+			"Touch",
+			"WinScreen"
 		],
 		"subfolders": [
 			{
@@ -93,13 +111,15 @@
 	},
 	"layouts": {
 		"items": [
-			"Layout 1"
+			"Game",
+			"Loder"
 		],
 		"subfolders": []
 	},
 	"eventSheets": {
 		"items": [
-			"Event sheet 1"
+			"EGame",
+			"Eloder"
 		],
 		"subfolders": []
 	},
@@ -110,6 +130,14 @@
 					"name": "move.js",
 					"type": "application/javascript",
 					"sid": 327870845929981,
+					"script-info": {
+						"purpose": "none"
+					}
+				},
+				{
+					"name": "init.js",
+					"type": "application/javascript",
+					"sid": 917854745944920,
 					"script-info": {
 						"purpose": "imports-for-events"
 					}
@@ -277,7 +305,6 @@
 		"gpuPreference": "high-performance",
 		"scriptsType": "module",
 		"framerateMode": "vsync",
-		"compositingMode": "standard",
 		"sampling": "trilinear",
 		"downscaling": "medium",
 		"renderingMode": "auto",
@@ -285,7 +312,7 @@
 		"zNear": 1,
 		"zFar": 10000,
 		"maxSpriteSheetSize": 2048,
-		"loaderStyle": "splash",
+		"loaderStyle": "percent",
 		"preloadSounds": true,
 		"cordovaiOSScheme": "app",
 		"cordovaAndroidScheme": "https",
@@ -295,5 +322,5 @@
 	},
 	"viewportWidth": 1920,
 	"viewportHeight": 1080,
-	"firstLayout": null
+	"firstLayout": "Loder"
 }

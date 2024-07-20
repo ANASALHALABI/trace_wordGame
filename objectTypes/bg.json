@@ -17,14 +17,14 @@
 			{
 				"frames": [
 					{
-						"width": 2000,
-						"height": 1127,
+						"width": 1998,
+						"height": 1125,
 						"originX": 0.5,
 						"originY": 0.5,
 						"originalSource": "",
 						"exportFormat": "lossless",
 						"exportQuality": 0.8,
-						"imageSpriteId": 9240720,
+						"imageSpriteId": 6295026,
 						"collisionPoly": {
 							"points": [
 								0.9995,
@@ -40,6 +40,19 @@
 						"useCollisionPoly": true,
 						"duration": 1,
 						"tag": ""
+					},
+					{
+						"width": 1998,
+						"height": 1125,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "",
+						"exportFormat": "lossless",
+						"exportQuality": 0.8,
+						"imageSpriteId": 1974670,
+						"useCollisionPoly": true,
+						"duration": 1,
+						"tag": ""
 					}
 				],
 				"sid": 477468579733060,
@@ -48,7 +61,7 @@
 				"isPingPong": false,
 				"repeatCount": 1,
 				"repeatTo": 0,
-				"speed": 5
+				"speed": 0
 			}
 		],
 		"subfolders": []

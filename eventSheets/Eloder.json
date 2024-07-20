@@ -1,0 +1,77 @@
+{
+	"name": "Eloder",
+	"events": [
+		{
+			"eventType": "variable",
+			"name": "Level",
+			"type": "number",
+			"initialValue": "79",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 926961259999986
+		},
+		{
+			"eventType": "variable",
+			"name": "backgroundSound",
+			"type": "number",
+			"initialValue": "1",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 827231532576148
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-start-of-layout",
+					"objectClass": "System",
+					"sid": 155917941666675
+				}
+			],
+			"actions": [
+				{
+					"type": "script",
+					"script": " gameLoaded();\n"
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"sid": 390011992522949,
+					"parameters": {
+						"variable": "backgroundSound",
+						"value": "Browser.QueryParam(\"backgroundSound\")"
+					}
+				}
+			],
+			"sid": 755802767063843
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-touched-object",
+					"objectClass": "Touch",
+					"sid": 134148373484642,
+					"parameters": {
+						"object": "Btn",
+						"type": "start"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "go-to-layout",
+					"objectClass": "System",
+					"sid": 223294931476196,
+					"parameters": {
+						"layout": "Game"
+					}
+				}
+			],
+			"sid": 194700370476065
+		}
+	],
+	"sid": 147291535081139
+}
