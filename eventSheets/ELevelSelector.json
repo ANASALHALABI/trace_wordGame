@@ -1,0 +1,265 @@
+{
+	"name": "ELevelSelector",
+	"events": [
+		{
+			"eventType": "variable",
+			"name": "StartX",
+			"type": "number",
+			"initialValue": "0",
+			"comment": "",
+			"isStatic": true,
+			"isConstant": false,
+			"sid": 659951187919860
+		},
+		{
+			"eventType": "variable",
+			"name": "StartY",
+			"type": "number",
+			"initialValue": "0",
+			"comment": "",
+			"isStatic": true,
+			"isConstant": false,
+			"sid": 668398487047137
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-start-of-layout",
+					"objectClass": "System",
+					"sid": 466065604856249
+				}
+			],
+			"actions": [
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"sid": 889148918406080,
+					"parameters": {
+						"variable": "StartX",
+						"value": "(ViewportWidth(0) - (5 *239)) / 2"
+					}
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"sid": 458941497958070,
+					"parameters": {
+						"variable": "StartY",
+						"value": "(ViewportHeight(0) - (2 * 233)) / 2"
+					}
+				}
+			],
+			"sid": 136617373124813,
+			"children": [
+				{
+					"eventType": "variable",
+					"name": "count",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"isStatic": false,
+					"isConstant": false,
+					"sid": 192661400035536
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "for",
+							"objectClass": "System",
+							"sid": 525222626726790,
+							"parameters": {
+								"name": "\"y\"",
+								"start-index": "0",
+								"end-index": "1"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 507105746360396,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for",
+									"objectClass": "System",
+									"sid": 429097063974506,
+									"parameters": {
+										"name": "\"x\"",
+										"start-index": "0",
+										"end-index": "4"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "add-to-eventvar",
+									"objectClass": "System",
+									"sid": 545871349546039,
+									"parameters": {
+										"variable": "count",
+										"value": "1"
+									}
+								},
+								{
+									"id": "create-object",
+									"objectClass": "System",
+									"sid": 690707842637383,
+									"parameters": {
+										"object-to-create": "levelPlace",
+										"layer": "1",
+										"x": "StartX+ ( loopindex(\"x\") * 300 )",
+										"y": "StartY+ ( loopindex(\"y\") * 300 )",
+										"create-hierarchy": false,
+										"template-name": "\"\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "levelPlace",
+									"sid": 234027380666655,
+									"parameters": {
+										"instance-variable": "id",
+										"value": "count - 1"
+									}
+								},
+								{
+									"id": "set-angle",
+									"objectClass": "levelPlace",
+									"sid": 825971841012234,
+									"parameters": {
+										"angle": "int(random(339,360))"
+									}
+								}
+							],
+							"sid": 315739748691530
+						}
+					]
+				}
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "trigger-once-while-true",
+					"objectClass": "System",
+					"sid": 614203079683652
+				}
+			],
+			"actions": [],
+			"sid": 809881222230909,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "for-each",
+							"objectClass": "System",
+							"sid": 369235934128733,
+							"parameters": {
+								"object": "levelPlace"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 908503617316681,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "levelPlace",
+									"sid": 618833056541758,
+									"parameters": {
+										"instance-variable": "id",
+										"comparison": 0,
+										"value": "fixedLevel"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-animation-frame",
+									"objectClass": "levelPlace",
+									"sid": 215964354245705,
+									"parameters": {
+										"frame-number": "1"
+									}
+								}
+							],
+							"sid": 410925290762934
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "levelPlace",
+									"sid": 477706315177382,
+									"parameters": {
+										"instance-variable": "id",
+										"comparison": 2,
+										"value": "fixedLevel"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-animation-frame",
+									"objectClass": "levelPlace",
+									"sid": 608536948741004,
+									"parameters": {
+										"frame-number": "2"
+									}
+								}
+							],
+							"sid": 202964187363251
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "levelPlace",
+									"sid": 271703628054647,
+									"parameters": {
+										"instance-variable": "id",
+										"comparison": 4,
+										"value": "fixedLevel"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "create-object",
+									"objectClass": "System",
+									"sid": 398495222820303,
+									"parameters": {
+										"object-to-create": "look",
+										"layer": "1",
+										"x": "levelPlace.X",
+										"y": "levelPlace.Y",
+										"create-hierarchy": false,
+										"template-name": "\"\""
+									}
+								}
+							],
+							"sid": 104776272600900
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [],
+					"actions": [],
+					"sid": 703510294802053
+				}
+			]
+		}
+	],
+	"sid": 570718383348447
+}

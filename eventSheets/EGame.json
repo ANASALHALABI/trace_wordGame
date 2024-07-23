@@ -83,6 +83,16 @@
 		},
 		{
 			"eventType": "variable",
+			"name": "Phase",
+			"type": "number",
+			"initialValue": "1",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 828544620535976
+		},
+		{
+			"eventType": "variable",
 			"name": "Win",
 			"type": "boolean",
 			"initialValue": "false",
@@ -102,6 +112,14 @@
 			],
 			"actions": [
 				{
+					"id": "wait",
+					"objectClass": "System",
+					"sid": 793062981501973,
+					"parameters": {
+						"seconds": "0.8"
+					}
+				},
+				{
 					"id": "request-project-file",
 					"objectClass": "AJAX",
 					"sid": 853511150556027,
@@ -111,37 +129,16 @@
 					}
 				},
 				{
-					"id": "wait",
-					"objectClass": "System",
-					"sid": 375741911121376,
-					"disabled": true,
+					"id": "play-by-name",
+					"objectClass": "Audio",
+					"sid": 234730697765776,
 					"parameters": {
-						"seconds": "5"
-					}
-				},
-				{
-					"id": "add-layer",
-					"objectClass": "System",
-					"sid": 767404166386326,
-					"disabled": true,
-					"parameters": {
-						"name": "\"win\"",
-						"insert-by": "\"WinScreen\"",
-						"where": "above"
-					}
-				},
-				{
-					"id": "create-object",
-					"objectClass": "System",
-					"sid": 910908724135516,
-					"disabled": true,
-					"parameters": {
-						"object-to-create": "WinScreen",
-						"layer": "\"win\"",
-						"x": "960",
-						"y": "540",
-						"create-hierarchy": false,
-						"template-name": "\"\""
+						"folder": "sounds",
+						"audio-file-name": "\"Level_\"&fixedLevel + 1\r\n&\"/\"&\r\nfixedLevel + 1& \"-00\"",
+						"loop": "not-looping",
+						"volume": "0",
+						"stereo-pan": "0",
+						"tag-optional": "\"\""
 					}
 				}
 			],
@@ -174,7 +171,7 @@
 				},
 				{
 					"type": "script",
-					"script": "/**\n * Function: initializeSVG\n * Parameters: None\n * Description: Initializes the SVG element by setting its dimensions, clearing previous contents, and starting the animation of paths sequentially.\n * Important Note: It retrieves the strokes from StrokesArray and starts animating paths if strokes are present.\n * The viewBox attribute is used to make the svg responsive with all screens.\n */\nfunction initializeSVG() {\n    const svgElement = document.getElementById('SvgExam');\n    svgElement.setAttribute('width', runtime.globalVars.SvgWidth);\n    svgElement.setAttribute('height', runtime.globalVars.SvgHeight);\n    svgElement.setAttribute('viewBox', \"0 0 \" + runtime.globalVars.SvgWidth + \" \" + runtime.globalVars.SvgHeight);\n    svgElement.innerHTML = '';  // Clear previous SVG contents\n\n    const strokesArray = runtime.objects.StrokesArray.getFirstInstance();\n    if (strokesArray) {\n        console.log(\"Number of strokes:\", strokesArray.width);\n        animatePathSequentially(svgElement, strokesArray, 0); // Start animating paths sequentially\n    } else {\n        console.log(\"Failed to load strokes from StrokesArray.\");\n    }\n}\n\n/**\n * Function: animatePathSequentially\n * Parameters: \n *  - svgElement: HTMLElement (SVG element to animate)\n *  - strokesArray: Object (Array of stroke data)\n *  - index: Number (Current index of the stroke being animated)\n * Description: Animates paths sequentially by creating path elements and applying animations to them based on stroke data.\n * Important Note: Handles instant appearance for dots and initiates sequential animation of paths.\n */\nfunction animatePathSequentially(svgElement, strokesArray, index) {\n    const pointsAnimationArray = runtime.objects.PointsAnimationArray.getFirstInstance();\n    const arrayLength = pointsAnimationArray.width;\n    let instantAppearanceIndices = [];\n    for (let i = 0; i < arrayLength; i++) {\n        instantAppearanceIndices.push(pointsAnimationArray.getAt(i));\n    }\n\n    if (index < strokesArray.width) {\n        let strokeData = strokesArray.getAt(index, 0, 0);\n\n        const newPath = document.createElementNS(\"http://www.w3.org/2000/svg\", \"path\");\n        newPath.setAttribute(\"d\", strokeData);\n        newPath.setAttribute(\"stroke\", \"rgb(255, 255, 255)\");\n        newPath.setAttribute(\"fill\", \"none\");\n        newPath.setAttribute(\"stroke-width\", runtime.globalVars.pathStroke);\n        newPath.style.strokeDasharray = newPath.getTotalLength();\n        newPath.style.strokeDashoffset = newPath.getTotalLength();\n        svgElement.appendChild(newPath);\n\n        const newFillPath = document.createElementNS(\"http://www.w3.org/2000/svg\", \"path\");\n        newFillPath.setAttribute(\"d\", strokeData);\n        newFillPath.setAttribute(\"stroke\", \"rgb(255, 36, 0)\");\n        newFillPath.setAttribute(\"fill\", \"none\");\n        newFillPath.setAttribute(\"stroke-width\", runtime.globalVars.pathStroke);\n        newFillPath.style.strokeDasharray = newPath.getTotalLength().toString();\n        newFillPath.style.strokeDashoffset = newPath.getTotalLength().toString();\n        newFillPath.style.display = \"none\";  // Keep the blue path hidden initially\n        svgElement.appendChild(newFillPath);\n\n        if (instantAppearanceIndices.includes(index)) {\n            // For dots, make them appear at once\n            newPath.style.strokeDashoffset = \"0\";\n            newFillPath.style.display = \"\"; // Ensure the blue path is visible\n            setTimeout(() => {\n                animatePathSequentially(svgElement, strokesArray, index + 1);\n            }, 100);\n        } else {\n            // Animate the path as usual\n            animatePathDrawing(newPath, () => {\n                // Do not display the blue path yet, only display it during interaction\n                animatePathSequentially(svgElement, strokesArray, index + 1);\n            });\n        }\n    } else {\n        // All paths have been animated or set, now add interaction elements\n        addInteractionElements(svgElement);\n    }\n}\n\n/**\n * Function: animatePathDrawing\n * Parameters: \n *  - path: HTMLElement (SVG path element to animate)\n *  - callback: Function (Callback function to execute after animation is complete)\n * Description: Animates the drawing of a path by progressively reducing its strokeDashoffset.\n * Important Note: Uses requestAnimationFrame for smooth animation.\n */\nfunction animatePathDrawing(path, callback) {\n    const length = path.getTotalLength();\n    let currentOffset = length;\n    const interval = 30; // milliseconds between each small movement\n    const decrement = length / (2500 / interval); // Adjust the total duration of the animation here (2500 ms in this example)\n\n    function reduceOffset() {\n        currentOffset -= decrement;\n        if (currentOffset > 0) {\n            path.style.strokeDashoffset = currentOffset;\n            requestAnimationFrame(reduceOffset);\n        } else {\n            path.style.strokeDashoffset = 0; // Ensure it ends exactly at 0\n            callback(); // Call callback function when animation is complete\n        }\n    }\n\n    reduceOffset();\n}\n\n/**\n * Function: addInteractionElements\n * Parameters: \n *  - svgElement: HTMLElement (SVG element to add interaction elements to)\n * Description: Adds interaction elements like a dot and an interaction area to the SVG element.\n * Important Note: Initializes dot tracking functionality after adding elements.\n */\nfunction addInteractionElements(svgElement) {\n    const dot = document.createElementNS(\"http://www.w3.org/2000/svg\", \"circle\");\n    dot.setAttribute(\"id\", \"dot\");\n    dot.setAttribute(\"cx\", runtime.globalVars.Cx);\n    dot.setAttribute(\"cy\", runtime.globalVars.Cy);\n    dot.setAttribute(\"r\", \"25\");\n    dot.setAttribute(\"fill\", \"rgb(255, 193, 44)\");\n    svgElement.appendChild(dot);\n\n    const interactionArea = document.createElementNS(\"http://www.w3.org/2000/svg\", \"circle\");\n    interactionArea.setAttribute(\"id\", \"interactionArea\");\n    interactionArea.setAttribute(\"cx\", runtime.globalVars.Cx);\n    interactionArea.setAttribute(\"cy\", runtime.globalVars.Cy);\n    interactionArea.setAttribute(\"r\", \"90\");\n    interactionArea.setAttribute(\"fill\", \"transparent\");\n    interactionArea.style.cursor = 'pointer';\n    svgElement.appendChild(interactionArea);\n\n    // Add the arrow image\n    const arrow = document.createElementNS(\"http://www.w3.org/2000/svg\", \"image\");\n    arrow.setAttribute(\"id\", \"arrow\");\n    arrow.setAttribute(\"href\", \"row.png\"); // Make sure the image path is correct\n    arrow.setAttribute(\"width\", \"20\");\n    arrow.setAttribute(\"height\", \"20\");\n    arrow.setAttribute(\"x\", runtime.globalVars.Cx - 10); // Adjust x to center the arrow\n    arrow.setAttribute(\"y\", runtime.globalVars.Cy - 10); // Adjust y to center the arrow\n    arrow.style.pointerEvents = 'none'; // Ensure the arrow does not interfere with interaction\n    svgElement.appendChild(arrow);\n\n    initializeDotAndTrack(); // Initialize the dot tracking functionality after all elements are added\n}\n\n/**\n * Function: initializeDotAndTrack\n * Parameters: None\n * Description: Initializes the dot and interaction area to track mouse and touch events for dragging the dot along paths.\n * Important Note: Handles interactions and updates global variables with the dot's position.\n */\nfunction initializeDotAndTrack() {\n    const svgElement = document.getElementById('SvgExam');\n    const dot = svgElement.querySelector('#dot');\n    const interactionArea = svgElement.querySelector('#interactionArea');\n    const arrow = svgElement.querySelector('#arrow');\n    const paths = svgElement.querySelectorAll('path');\n    let letterPointArray = [];\n\n    // Declare variables to track state\n    let dragging = false;\n    let lastX = 0, lastY = 0;\n    let currentU = 0;\n    let accumulatedDistance = 0;\n\n    // Assuming LetterPointArray is the name of your array in Construct 3\n    const letterPoints = runtime.objects.LetterPointArray.getFirstInstance();\n    const arrayLength = letterPoints.width;  // Adjust this if using a different dimension\n    for (let i = 0; i < arrayLength; i++) {\n        letterPointArray.push(letterPoints.getAt(i));  // Adjust index access if your array is structured differently\n    }\n\n    paths.forEach((path, index) => {\n        if (index % 2 === 1) { // Assuming even indices are drawing paths, odd indices are fill paths\n            path.style.strokeDasharray = path.getTotalLength().toString();\n            path.style.strokeDashoffset = path.getTotalLength().toString();\n        }\n    });\n\n    let currentPathIndex = 0;\n    let totalLength = paths[currentPathIndex].getTotalLength();\n\n    // Adjust initial arrow rotation\n    let initialP = paths[currentPathIndex].getPointAtLength(0);\n    let nextP = paths[currentPathIndex].getPointAtLength(1);\n    let initialAngle = Math.atan2(nextP.y - initialP.y, nextP.x - initialP.x) * (180 / Math.PI);\n    arrow.setAttribute(\"transform\", `rotate(${initialAngle}, ${initialP.x}, ${initialP.y})`);\n\n    interactionArea.addEventListener(\"click\", (event) => {\n        if (letterPointArray.includes(currentPathIndex)) {\n            // If the current path is a dot, handle click\n            handleDotClick(currentPathIndex);\n        }\n    });\n\n    interactionArea.addEventListener(\"mousedown\", startDrag);\n    interactionArea.addEventListener(\"touchstart\", startDrag);\n    document.addEventListener(\"mousemove\", moveDrag);\n    document.addEventListener(\"touchmove\", moveDrag);\n    document.addEventListener(\"mouseup\", endDrag);\n    document.addEventListener(\"touchend\", endDrag);\n\n    /**\n     * Function: handleDotClick\n     * Parameters: \n     *  - pathIndex: Number (Index of the path being clicked)\n     * Description: Handles the click event for dots, updating position to complete interaction.\n     * Important Note: Ensures interaction is only handled if the current path index matches.\n     */\n    function handleDotClick(pathIndex) {\n        if (currentPathIndex === pathIndex) {\n            updatePosition(1); // Complete the dot interaction\n        }\n    }\n\n    /**\n     * Function: startDrag\n     * Parameters: \n     *  - event: Event (Mouse or touch event for starting drag)\n     * Description: Initiates the drag process by setting initial positions and enabling dragging state.\n     * Important Note: Prevents dragging if the pointer is outside the interaction area or if the current path is a dot.\n     */\n    function startDrag(event) {\n        if (letterPointArray.includes(currentPathIndex)) {\n            return; // Prevent dragging if current path is a dot\n        }\n\n        const interactionRect = interactionArea.getBoundingClientRect();\n        const clientX = event.type === 'touchstart' ? event.touches[0].clientX : event.clientX;\n        const clientY = event.type === 'touchstart' ? event.touches[0].clientY : event.clientY;\n        const dx = clientX - (interactionRect.left + interactionRect.width / 2);\n        const dy = clientY - (interactionRect.top + interactionRect.height / 2);\n        const dist = Math.sqrt(dx * dx + dy * dy);\n\n        if (dist > parseFloat(interactionArea.getAttribute('r'))) {  // Only allow dragging if the pointer is within the radius of the interaction area\n            return;\n        }\n\n        dragging = true;\n        runtime.globalVars.IsInDrag = true;  // Set IsInDrag to true when dragging starts\n        lastX = clientX;\n        lastY = clientY;\n        event.preventDefault();\n        document.body.style.cursor = \"grabbing\";\n    }\n\n    /**\n     * Function: moveDrag\n     * Parameters: \n     *  - event: Event (Mouse or touch event for moving during drag)\n     * Description: Handles the dragging movement, updating the position of the dot and interaction area.\n     * Important Note: Stops dragging if the pointer moves outside the interaction area radius.\n     */\n    function moveDrag(event) {\n        if (!dragging || letterPointArray.includes(currentPathIndex)) return;\n\n        const clientX = event.type === 'touchmove' ? event.touches[0].clientX : event.clientX;\n        const clientY = event.type === 'touchmove' ? event.touches[0].clientY : event.clientY;\n\n        const interactionRect = interactionArea.getBoundingClientRect();\n        const interactionX = interactionRect.left + interactionRect.width / 2;\n        const interactionY = interactionRect.top + interactionRect.height / 2;\n        const dx = clientX - interactionX;\n        const dy = clientY - interactionY;\n        const dist = Math.sqrt(dx * dx + dy * dy);\n\n        if (dist > parseFloat(interactionArea.getAttribute('r'))) {  // Only allow dragging if the pointer is within the radius of the interaction area\n            endDrag();\n            return;\n        }\n\n        accumulatedDistance += Math.sqrt((clientX - lastX) * (clientX - lastX) + (clientY - lastY) * (clientY - lastY));\n        lastX = clientX;\n        lastY = clientY;\n\n        if (accumulatedDistance !== 0) {\n            let du = accumulatedDistance / totalLength;\n            currentU = Math.max(0, Math.min(currentU + du, 1));\n            accumulatedDistance = 0;\n            requestAnimationFrame(() => updatePosition(currentU));\n        }\n    }\n\n    /**\n     * Function: updatePosition\n     * Parameters: \n     *  - u: Number (Normalized position along the path from 0 to 1)\n     * Description: Updates the position of the dot and interaction area along the path, and shows the fill path.\n     * Important Note: Moves to the next path when the end of the current path is reached.\n     */\n    function updatePosition(u) {\n        const currentPath = paths[currentPathIndex];\n        let p = currentPath.getPointAtLength(u * totalLength);\n        dot.setAttribute(\"cx\", p.x);\n        dot.setAttribute(\"cy\", p.y);\n        interactionArea.setAttribute(\"cx\", p.x);\n        interactionArea.setAttribute(\"cy\", p.y);\n\n        // Update arrow position and rotation\n        arrow.setAttribute(\"x\", p.x - 10); // Adjust x to center the arrow\n        arrow.setAttribute(\"y\", p.y - 10); // Adjust y to center the arrow\n\n        let nextU = Math.min(u + 0.01, 1); // Small increment to get the next point\n        let nextP = currentPath.getPointAtLength(nextU * totalLength);\n        let angle = Math.atan2(nextP.y - p.y, nextP.x - p.x) * (180 / Math.PI);\n        arrow.setAttribute(\"transform\", `rotate(${angle}, ${p.x}, ${p.y})`);\n\n        let correspondingFillPath = paths[currentPathIndex + 1];\n        correspondingFillPath.style.display = \"\";  // Make the fill path visible\n        correspondingFillPath.style.strokeDashoffset = totalLength * (1 - u); // Update the fill path\n\n        runtime.globalVars.parX = p.x;\n        runtime.globalVars.parY = p.y;\n\n        if (u === 1) {\n            moveToNextPath();\n        }\n    }\n\n    /**\n     * Function: moveToNextPath\n     * Parameters: None\n     * Description: Moves the dot to the start of the next path, resetting necessary state variables.\n     * Important Note: Hides the dot and interaction area when all paths are completed.\n     */\n    function moveToNextPath() {\n        if (currentPathIndex < paths.length - 2) {\n            currentPathIndex += 2;\n            totalLength = paths[currentPathIndex].getTotalLength();\n            currentU = 0;\n            accumulatedDistance = 0;\n            moveDotToStart(paths[currentPathIndex]);\n        } else {\n            dot.style.display = \"none\"; // Hide the dot when finished\n            interactionArea.style.display = \"none\"; // Hide the interaction area\n            arrow.style.display = \"none\"; // Hide the arrow when finished\n            runtime.globalVars.IsInDrag = false;  // Set IsInDrag to false when dragging ends\n            runtime.globalVars.Win = true;  // Set IsInDrag to false when dragging ends\n        }\n    }\n\n    /**\n     * Function: moveDotToStart\n     * Parameters: \n     *  - path: HTMLElement (SVG path element to move the dot to the start)\n     * Description: Moves the dot and interaction area to the start of the given path.\n     * Important Note: Updates global variables with the new start position.\n     */\n    function moveDotToStart(path) {\n        let p = path.getPointAtLength(0);\n        dot.setAttribute(\"cx\", p.x);\n        dot.setAttribute(\"cy\", p.y);\n        interactionArea.setAttribute(\"cx\", p.x);\n        interactionArea.setAttribute(\"cy\", p.y);\n\n        // Update arrow position and reset rotation\n        arrow.setAttribute(\"x\", p.x - 10); // Adjust x to center the arrow\n        arrow.setAttribute(\"y\", p.y - 10); // Adjust y to center the arrow\n\n        let nextP = path.getPointAtLength(1);\n        let initialAngle = Math.atan2(nextP.y - p.y, nextP.x - p.x) * (180 / Math.PI);\n        arrow.setAttribute(\"transform\", `rotate(${initialAngle}, ${p.x}, ${p.y})`);\n\n        runtime.globalVars.parX = p.x;\n        runtime.globalVars.parY = p.y;\n    }\n\n    /**\n     * Function: endDrag\n     * Parameters: \n     *  - event: Event (Mouse or touch event for ending drag)\n     * Description: Ends the drag process by disabling dragging state and resetting the cursor.\n     * Important Note: Resets IsInDrag global variable when dragging ends.\n     */\n    function endDrag(event) {\n        dragging = false;\n        runtime.globalVars.IsInDrag = false;  // Set IsInDrag to false when dragging ends\n        document.body.style.cursor = \"default\";\n    }\n}\n\n// Initialize the SVG animation and interaction setup\ninitializeSVG();\n"
+					"script": "/**\n * Function: initializeSVG\n * Parameters: None\n * Description: Initializes the SVG element by setting its dimensions, clearing previous contents, and starting the animation of paths sequentially.\n * Important Note: It retrieves the strokes from StrokesArray and starts animating paths if strokes are present.\n * The viewBox attribute is used to make the svg responsive with all screens.\n*/\nfunction initializeSVG() {\n    const svgElement = document.getElementById('SvgExam');\n    svgElement.setAttribute('width', runtime.globalVars.SvgWidth);\n    svgElement.setAttribute('height', runtime.globalVars.SvgHeight);\n    svgElement.setAttribute('viewBox', \"0 0 \" + runtime.globalVars.SvgWidth + \" \" + runtime.globalVars.SvgHeight);\n    svgElement.innerHTML = '';  // Clear previous SVG contents\n\n    const strokesArray = runtime.objects.StrokesArray.getFirstInstance();\n    if (strokesArray) {\n        console.log(\"Number of strokes:\", strokesArray.width);\n        animatePathSequentially(svgElement, strokesArray, 0); // Start animating paths sequentially\n    } else {\n        console.log(\"Failed to load strokes from StrokesArray.\");\n    }\n}\n\n/**\n * Function: animatePathSequentially\n * Parameters: \n *  - svgElement: HTMLElement (SVG element to animate)\n *  - strokesArray: Object (Array of stroke data)\n *  - index: Number (Current index of the stroke being animated)\n * Description: Animates paths sequentially by creating path elements and applying animations to them based on stroke data.\n * Important Note: Handles instant appearance for dots and initiates sequential animation of paths.\n */\nfunction animatePathSequentially(svgElement, strokesArray, index) {\n    const pointsAnimationArray = runtime.objects.PointsAnimationArray.getFirstInstance();\n    const arrayLength = pointsAnimationArray.width;\n    let instantAppearanceIndices = [];\n    for (let i = 0; i < arrayLength; i++) {\n        instantAppearanceIndices.push(pointsAnimationArray.getAt(i));\n    }\n\n    if (index < strokesArray.width) {\n        let strokeData = strokesArray.getAt(index, 0, 0);\n\n        const newPath = document.createElementNS(\"http://www.w3.org/2000/svg\", \"path\");\n        newPath.setAttribute(\"d\", strokeData);\n        newPath.setAttribute(\"stroke\", \"rgb(255, 255, 255)\");\n        newPath.setAttribute(\"fill\", \"none\");\n        newPath.setAttribute(\"stroke-width\", runtime.globalVars.pathStroke);\n        newPath.style.strokeDasharray = newPath.getTotalLength();\n        newPath.style.strokeDashoffset = newPath.getTotalLength();\n        svgElement.appendChild(newPath);\n\n        const newFillPath = document.createElementNS(\"http://www.w3.org/2000/svg\", \"path\");\n        newFillPath.setAttribute(\"d\", strokeData);\n        newFillPath.setAttribute(\"stroke\", \"rgb(255, 36, 0)\");\n        newFillPath.setAttribute(\"fill\", \"none\");\n        newFillPath.setAttribute(\"stroke-width\", runtime.globalVars.pathStroke);\n        newFillPath.style.strokeDasharray = newPath.getTotalLength().toString();\n        newFillPath.style.strokeDashoffset = newPath.getTotalLength().toString();\n        newFillPath.style.display = \"none\";  // Keep the blue path hidden initially\n        svgElement.appendChild(newFillPath);\n\n        if (instantAppearanceIndices.includes(index)) {\n            // For dots, make them appear at once\n            newPath.style.strokeDashoffset = \"0\";\n            newFillPath.style.display = \"\"; // Ensure the blue path is visible\n            setTimeout(() => {\n                animatePathSequentially(svgElement, strokesArray, index + 1);\n            }, 100);\n        } else {\n            // Animate the path as usual\n            animatePathDrawing(newPath, () => {\n                // Do not display the blue path yet, only display it during interaction\n                animatePathSequentially(svgElement, strokesArray, index + 1);\n            });\n        }\n    } else {\n        // All paths have been animated or set, now add interaction elements\n        addInteractionElements(svgElement);\n    }\n}\n\n/**\n * Function: animatePathDrawing\n * Parameters: \n *  - path: HTMLElement (SVG path element to animate)\n *  - callback: Function (Callback function to execute after animation is complete)\n * Description: Animates the drawing of a path by progressively reducing its strokeDashoffset.\n * Important Note: Uses requestAnimationFrame for smooth animation.\n */\nfunction animatePathDrawing(path, callback) {\n    const length = path.getTotalLength();\n    let currentOffset = length;\n    const interval = 30; // milliseconds between each small movement\n    const decrement = length / (2500 / interval); // Adjust the total duration of the animation here (2500 ms in this example)\n\n    function reduceOffset() {\n        currentOffset -= decrement;\n        if (currentOffset > 0) {\n            path.style.strokeDashoffset = currentOffset;\n            requestAnimationFrame(reduceOffset);\n        } else {\n            path.style.strokeDashoffset = 0; // Ensure it ends exactly at 0\n            callback(); // Call callback function when animation is complete\n        }\n    }\n\n    reduceOffset();\n}\n\n/**\n * Function: addInteractionElements\n * Parameters: \n *  - svgElement: HTMLElement (SVG element to add interaction elements to)\n * Description: Adds interaction elements like a dot and an interaction area to the SVG element.\n * Important Note: Initializes dot tracking functionality after adding elements.\n */\nfunction addInteractionElements(svgElement) {\n    const dot = document.createElementNS(\"http://www.w3.org/2000/svg\", \"circle\");\n    dot.setAttribute(\"id\", \"dot\");\n    dot.setAttribute(\"cx\", runtime.globalVars.Cx);\n    dot.setAttribute(\"cy\", runtime.globalVars.Cy);\n    dot.setAttribute(\"r\", \"25\");\n    dot.setAttribute(\"fill\", \"rgb(255, 193, 44)\");\n    svgElement.appendChild(dot);\n\n    const interactionArea = document.createElementNS(\"http://www.w3.org/2000/svg\", \"circle\");\n    interactionArea.setAttribute(\"id\", \"interactionArea\");\n    interactionArea.setAttribute(\"cx\", runtime.globalVars.Cx);\n    interactionArea.setAttribute(\"cy\", runtime.globalVars.Cy);\n    interactionArea.setAttribute(\"r\", \"90\");\n    interactionArea.setAttribute(\"fill\", \"transparent\");\n    interactionArea.style.cursor = 'pointer';\n    svgElement.appendChild(interactionArea);\n\n    // Add the arrow image\n    const arrow = document.createElementNS(\"http://www.w3.org/2000/svg\", \"image\");\n    arrow.setAttribute(\"id\", \"arrow\");\n    arrow.setAttribute(\"href\", \"row.png\"); // Make sure the image path is correct\n    arrow.setAttribute(\"width\", \"20\");\n    arrow.setAttribute(\"height\", \"20\");\n    arrow.setAttribute(\"x\", runtime.globalVars.Cx - 10); // Adjust x to center the arrow\n    arrow.setAttribute(\"y\", runtime.globalVars.Cy - 10); // Adjust y to center the arrow\n    arrow.style.pointerEvents = 'none'; // Ensure the arrow does not interfere with interaction\n    svgElement.appendChild(arrow);\n\n    initializeDotAndTrack(); // Initialize the dot tracking functionality after all elements are added\n}\n\n/**\n * Function: initializeDotAndTrack\n * Parameters: None\n * Description: Initializes the dot and interaction area to track mouse and touch events for dragging the dot along paths.\n * Important Note: Handles interactions and updates global variables with the dot's position.\n */\nfunction initializeDotAndTrack() {\n    const svgElement = document.getElementById('SvgExam');\n    const dot = svgElement.querySelector('#dot');\n    const interactionArea = svgElement.querySelector('#interactionArea');\n    const arrow = svgElement.querySelector('#arrow');\n    const paths = svgElement.querySelectorAll('path');\n    let letterPointArray = [];\n\n    // Declare variables to track state\n    let dragging = false;\n    let lastX = 0, lastY = 0;\n    let currentU = 0;\n    let accumulatedDistance = 0;\n\n    // Assuming LetterPointArray is the name of your array in Construct 3\n    const letterPoints = runtime.objects.LetterPointArray.getFirstInstance();\n    const arrayLength = letterPoints.width;  // Adjust this if using a different dimension\n    for (let i = 0; i < arrayLength; i++) {\n        letterPointArray.push(letterPoints.getAt(i));  // Adjust index access if your array is structured differently\n    }\n\n    paths.forEach((path, index) => {\n        if (index % 2 === 1) { // Assuming even indices are drawing paths, odd indices are fill paths\n            path.style.strokeDasharray = path.getTotalLength().toString();\n            path.style.strokeDashoffset = path.getTotalLength().toString();\n        }\n    });\n\n    let currentPathIndex = 0;\n    let totalLength = paths[currentPathIndex].getTotalLength();\n\n    // Adjust initial arrow rotation\n    let initialP = paths[currentPathIndex].getPointAtLength(0);\n    let nextP = paths[currentPathIndex].getPointAtLength(1);\n    let initialAngle = Math.atan2(nextP.y - initialP.y, nextP.x - initialP.x) * (180 / Math.PI);\n    arrow.setAttribute(\"transform\", `rotate(${initialAngle}, ${initialP.x}, ${initialP.y})`);\n\n    interactionArea.addEventListener(\"click\", (event) => {\n        if (letterPointArray.includes(currentPathIndex)) {\n            // If the current path is a dot, handle click\n            handleDotClick(currentPathIndex);\n        }\n    });\n\n    interactionArea.addEventListener(\"mousedown\", startDrag);\n    interactionArea.addEventListener(\"touchstart\", startDrag);\n    document.addEventListener(\"mousemove\", moveDrag);\n    document.addEventListener(\"touchmove\", moveDrag);\n    document.addEventListener(\"mouseup\", endDrag);\n    document.addEventListener(\"touchend\", endDrag);\n\n    /**\n     * Function: handleDotClick\n     * Parameters: \n     *  - pathIndex: Number (Index of the path being clicked)\n     * Description: Handles the click event for dots, updating position to complete interaction.\n     * Important Note: Ensures interaction is only handled if the current path index matches.\n     */\n    function handleDotClick(pathIndex) {\n        if (currentPathIndex === pathIndex) {\n            updatePosition(1); // Complete the dot interaction\n        }\n    }\n\n    /**\n     * Function: startDrag\n     * Parameters: \n     *  - event: Event (Mouse or touch event for starting drag)\n     * Description: Initiates the drag process by setting initial positions and enabling dragging state.\n     * Important Note: Prevents dragging if the pointer is outside the interaction area or if the current path is a dot.\n     */\n    function startDrag(event) {\n        if (letterPointArray.includes(currentPathIndex)) {\n            return; // Prevent dragging if current path is a dot\n        }\n\n        const interactionRect = interactionArea.getBoundingClientRect();\n        const clientX = event.type === 'touchstart' ? event.touches[0].clientX : event.clientX;\n        const clientY = event.type === 'touchstart' ? event.touches[0].clientY : event.clientY;\n        const dx = clientX - (interactionRect.left + interactionRect.width / 2);\n        const dy = clientY - (interactionRect.top + interactionRect.height / 2);\n        const dist = Math.sqrt(dx * dx + dy * dy);\n\n        if (dist > parseFloat(interactionArea.getAttribute('r'))) {  // Only allow dragging if the pointer is within the radius of the interaction area\n            return;\n        }\n\n        dragging = true;\n        runtime.globalVars.IsInDrag = true;  // Set IsInDrag to true when dragging starts\n        lastX = clientX;\n        lastY = clientY;\n        event.preventDefault();\n        document.body.style.cursor = \"grabbing\";\n    }\n\n    /**\n     * Function: moveDrag\n     * Parameters: \n     *  - event: Event (Mouse or touch event for moving during drag)\n     * Description: Handles the dragging movement, updating the position of the dot and interaction area.\n     * Important Note: Stops dragging if the pointer moves outside the interaction area radius.\n     */\n    function moveDrag(event) {\n        if (!dragging || letterPointArray.includes(currentPathIndex)) return;\n\n        const clientX = event.type === 'touchmove' ? event.touches[0].clientX : event.clientX;\n        const clientY = event.type === 'touchmove' ? event.touches[0].clientY : event.clientY;\n\n        const interactionRect = interactionArea.getBoundingClientRect();\n        const interactionX = interactionRect.left + interactionRect.width / 2;\n        const interactionY = interactionRect.top + interactionRect.height / 2;\n        const dx = clientX - interactionX;\n        const dy = clientY - interactionY;\n        const dist = Math.sqrt(dx * dx + dy * dy);\n\n        if (dist > parseFloat(interactionArea.getAttribute('r'))) {  // Only allow dragging if the pointer is within the radius of the interaction area\n            endDrag();\n            return;\n        }\n\n        accumulatedDistance += Math.sqrt((clientX - lastX) * (clientX - lastX) + (clientY - lastY) * (clientY - lastY));\n        lastX = clientX;\n        lastY = clientY;\n\n        if (accumulatedDistance !== 0) {\n            let du = accumulatedDistance / totalLength;\n            currentU = Math.max(0, Math.min(currentU + du, 1));\n            accumulatedDistance = 0;\n            requestAnimationFrame(() => updatePosition(currentU));\n        }\n    }\n\n    /**\n     * Function: updatePosition\n     * Parameters: \n     *  - u: Number (Normalized position along the path from 0 to 1)\n     * Description: Updates the position of the dot and interaction area along the path, and shows the fill path.\n     * Important Note: Moves to the next path when the end of the current path is reached.\n     */\n    function updatePosition(u) {\n        const currentPath = paths[currentPathIndex];\n        let p = currentPath.getPointAtLength(u * totalLength);\n        dot.setAttribute(\"cx\", p.x);\n        dot.setAttribute(\"cy\", p.y);\n        interactionArea.setAttribute(\"cx\", p.x);\n        interactionArea.setAttribute(\"cy\", p.y);\n\n        // Update arrow position and rotation\n        arrow.setAttribute(\"x\", p.x - 10); // Adjust x to center the arrow\n        arrow.setAttribute(\"y\", p.y - 10); // Adjust y to center the arrow\n\n        let nextU = Math.min(u + 0.01, 1); // Small increment to get the next point\n        let nextP = currentPath.getPointAtLength(nextU * totalLength);\n        let angle = Math.atan2(nextP.y - p.y, nextP.x - p.x) * (180 / Math.PI);\n        arrow.setAttribute(\"transform\", `rotate(${angle}, ${p.x}, ${p.y})`);\n\n        let correspondingFillPath = paths[currentPathIndex + 1];\n        correspondingFillPath.style.display = \"\";  // Make the fill path visible\n        correspondingFillPath.style.strokeDashoffset = totalLength * (1 - u); // Update the fill path\n\n        runtime.globalVars.parX = p.x;\n        runtime.globalVars.parY = p.y;\n\n        if (u === 1) {\n            moveToNextPath();\n        }\n    }\n\n    /**\n     * Function: moveToNextPath\n     * Parameters: None\n     * Description: Moves the dot to the start of the next path, resetting necessary state variables.\n     * Important Note: Hides the dot and interaction area when all paths are completed.\n     */\n    function moveToNextPath() {\n        if (currentPathIndex < paths.length - 2) {\n            currentPathIndex += 2;\n            totalLength = paths[currentPathIndex].getTotalLength();\n            currentU = 0;\n            accumulatedDistance = 0;\n            moveDotToStart(paths[currentPathIndex]);\n        } else {\n            dot.style.display = \"none\"; // Hide the dot when finished\n            interactionArea.style.display = \"none\"; // Hide the interaction area\n            arrow.style.display = \"none\"; // Hide the arrow when finished\n            runtime.globalVars.IsInDrag = false;  // Set IsInDrag to false when dragging ends\n            runtime.globalVars.Win = true;  // Set IsInDrag to false when dragging ends\n        }\n    }\n\n    /**\n     * Function: moveDotToStart\n     * Parameters: \n     *  - path: HTMLElement (SVG path element to move the dot to the start)\n     * Description: Moves the dot and interaction area to the start of the given path.\n     * Important Note: Updates global variables with the new start position.\n     */\n    function moveDotToStart(path) {\n        let p = path.getPointAtLength(0);\n        dot.setAttribute(\"cx\", p.x);\n        dot.setAttribute(\"cy\", p.y);\n        interactionArea.setAttribute(\"cx\", p.x);\n        interactionArea.setAttribute(\"cy\", p.y);\n\n        // Update arrow position and reset rotation\n        arrow.setAttribute(\"x\", p.x - 10); // Adjust x to center the arrow\n        arrow.setAttribute(\"y\", p.y - 10); // Adjust y to center the arrow\n\n        let nextP = path.getPointAtLength(1);\n        let initialAngle = Math.atan2(nextP.y - p.y, nextP.x - p.x) * (180 / Math.PI);\n        arrow.setAttribute(\"transform\", `rotate(${initialAngle}, ${p.x}, ${p.y})`);\n\n        runtime.globalVars.parX = p.x;\n        runtime.globalVars.parY = p.y;\n    }\n\n    /**\n     * Function: endDrag\n     * Parameters: \n     *  - event: Event (Mouse or touch event for ending drag)\n     * Description: Ends the drag process by disabling dragging state and resetting the cursor.\n     * Important Note: Resets IsInDrag global variable when dragging ends.\n     */\n    function endDrag(event) {\n        dragging = false;\n        runtime.globalVars.IsInDrag = false;  // Set IsInDrag to false when dragging ends\n        document.body.style.cursor = \"default\";\n    }\n}\n\n// Initialize the SVG animation and interaction setup\ninitializeSVG();\n"
 				},
 				{
 					"type": "script",
@@ -212,6 +209,16 @@
 				}
 			],
 			"sid": 653796984549895
+		},
+		{
+			"eventType": "variable",
+			"name": "debug",
+			"type": "string",
+			"initialValue": "",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 216557983390693
 		},
 		{
 			"functionName": "Win",
@@ -254,6 +261,7 @@
 							"id": "tween-two-properties",
 							"objectClass": "HTMLElement",
 							"sid": 272441885594635,
+							"disabled": true,
 							"behaviorType": "Tween",
 							"parameters": {
 								"tags": "\"\"",
@@ -269,16 +277,69 @@
 							}
 						},
 						{
+							"id": "play-by-name",
+							"objectClass": "Audio",
+							"sid": 115039786459845,
+							"parameters": {
+								"folder": "sounds",
+								"audio-file-name": "\"Level_\"&fixedLevel + 1\n&\"/\"&\nfixedLevel + 1& \"-\" &  zeropad(Phase,2)",
+								"loop": "not-looping",
+								"volume": "0",
+								"stereo-pan": "0",
+								"tag-optional": "\"A\""
+							}
+						},
+						{
 							"id": "wait",
 							"objectClass": "System",
-							"sid": 104236439834158,
+							"sid": 113023645148039,
 							"parameters": {
-								"seconds": "0.3"
+								"seconds": "Audio.Duration(\"A\")"
 							}
 						},
 						{
 							"type": "script",
 							"script": "const svgElement = document.getElementById('SvgExam');\n svgElement.innerHTML = '';"
+						},
+						{
+							"id": "set-opacity",
+							"objectClass": "Sprite2",
+							"sid": 218131283085214,
+							"parameters": {
+								"opacity": "100"
+							}
+						},
+						{
+							"id": "start-fade",
+							"objectClass": "Sprite2",
+							"sid": 866466369116477,
+							"behaviorType": "Fade"
+						},
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 192380029933767,
+							"parameters": {
+								"variable": "debug",
+								"value": "\"Level_\"&fixedLevel + 1\r\n&\"/\"&\r\nfixedLevel + 1& \"_\" &  zeropad(Phase,2)"
+							}
+						},
+						{
+							"id": "add-to-eventvar",
+							"objectClass": "System",
+							"sid": 769467386284849,
+							"parameters": {
+								"variable": "Phase",
+								"value": "1"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 132361817542823,
+							"parameters": {
+								"seconds": "0.5"
+							}
 						},
 						{
 							"id": "request-project-file",
@@ -287,15 +348,6 @@
 							"parameters": {
 								"tag": "\"loadJSON\"",
 								"file": "level.json"
-							}
-						},
-						{
-							"id": "set-position",
-							"objectClass": "HTMLElement",
-							"sid": 368323965133355,
-							"parameters": {
-								"x": "960",
-								"y": "540"
 							}
 						}
 					],
@@ -313,7 +365,15 @@
 					"actions": [
 						{
 							"type": "script",
-							"script": "const svgElement = document.getElementById('SvgExam');\n svgElement.innerHTML = '';"
+							"script": "const svgElement = document.getElementById('SvgExam');\nconst svgChildren = Array.from(svgElement.children);\n\n// تطبيق نمط التلاشي التدريجي على كل عنصر داخل SVG\nsvgChildren.forEach(child => {\n  child.classList.add('fade-out');\n});\n\n// إزالة المحتويات بعد انتهاء تأثير التلاشي\nsetTimeout(() => {\n  svgChildren.forEach(child => {\n    svgElement.removeChild(child);\n  });\n}, 200); // 200ms هو الوقت المحدد للتلاشي\n"
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 424815860672080,
+							"parameters": {
+								"seconds": "0.5"
+							}
 						},
 						{
 							"id": "create-object",
@@ -326,6 +386,45 @@
 								"y": "540",
 								"create-hierarchy": false,
 								"template-name": "\"\""
+							}
+						},
+						{
+							"id": "create-object",
+							"objectClass": "System",
+							"sid": 995753254939177,
+							"parameters": {
+								"object-to-create": "Btn",
+								"layer": "2",
+								"x": "WinScreen.ImagePointX(1)",
+								"y": "WinScreen.ImagePointY(1)",
+								"create-hierarchy": false,
+								"template-name": "\"\""
+							}
+						},
+						{
+							"id": "set-animation-frame",
+							"objectClass": "Btn",
+							"sid": 650371572207335,
+							"parameters": {
+								"frame-number": "1"
+							}
+						},
+						{
+							"id": "add-to-eventvar",
+							"objectClass": "System",
+							"sid": 297227387995507,
+							"parameters": {
+								"variable": "fixedLevel",
+								"value": "1"
+							}
+						},
+						{
+							"id": "set-item",
+							"objectClass": "LocalStorage",
+							"sid": 693721661585778,
+							"parameters": {
+								"key": "\"Level\"",
+								"value": "fixedLevel"
 							}
 						}
 					],
@@ -547,6 +646,31 @@
 					"sid": 187699894812445
 				}
 			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-touched-object",
+					"objectClass": "Touch",
+					"sid": 230841491432711,
+					"parameters": {
+						"object": "Btn",
+						"type": "start"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "go-to-layout",
+					"objectClass": "System",
+					"sid": 127038867105137,
+					"parameters": {
+						"layout": "LevelSelector"
+					}
+				}
+			],
+			"sid": 538268869584065
 		}
 	],
 	"sid": 264773059091828

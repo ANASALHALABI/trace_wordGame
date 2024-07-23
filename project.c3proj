@@ -22,6 +22,13 @@
 		},
 		{
 			"type": "plugin",
+			"id": "Audio",
+			"name": "Audio",
+			"author": "Scirra",
+			"bundled": false
+		},
+		{
+			"type": "plugin",
 			"id": "Browser",
 			"name": "Browser",
 			"author": "Scirra",
@@ -38,6 +45,13 @@
 			"type": "plugin",
 			"id": "Json",
 			"name": "JSON",
+			"author": "Scirra",
+			"bundled": false
+		},
+		{
+			"type": "plugin",
+			"id": "LocalStorage",
+			"name": "Local storage",
 			"author": "Scirra",
 			"bundled": false
 		},
@@ -71,6 +85,13 @@
 		},
 		{
 			"type": "behavior",
+			"id": "Fade",
+			"name": "Fade",
+			"author": "Scirra",
+			"bundled": false
+		},
+		{
+			"type": "behavior",
 			"id": "Tween",
 			"name": "Tween",
 			"author": "Scirra",
@@ -88,7 +109,12 @@
 			"Btn",
 			"Browser",
 			"Touch",
-			"WinScreen"
+			"WinScreen",
+			"Audio",
+			"levelPlace",
+			"LocalStorage",
+			"look",
+			"Sprite2"
 		],
 		"subfolders": [
 			{
@@ -112,14 +138,16 @@
 	"layouts": {
 		"items": [
 			"Game",
-			"Loder"
+			"Loder",
+			"LevelSelector"
 		],
 		"subfolders": []
 	},
 	"eventSheets": {
 		"items": [
 			"EGame",
-			"Eloder"
+			"Eloder",
+			"ELevelSelector"
 		],
 		"subfolders": []
 	},
@@ -147,7 +175,577 @@
 		},
 		"sound": {
 			"items": [],
-			"subfolders": []
+			"subfolders": [
+				{
+					"items": [
+						{
+							"name": "1-09.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 900163935206319,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "1-08.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 471382951347712,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "1-07.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 756863581338169,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "1-06.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 648001149074563,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "1-05.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 383258813848488,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "1-04.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 853570233249614,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "1-03.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 337049933061277,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "1-02.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 850694177753439,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "1-01.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 111853256429617,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "1-00.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 559449778951938,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "1-10.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 821028428528351,
+							"file-info": {
+								"purpose": "none"
+							}
+						}
+					],
+					"subfolders": [],
+					"name": "Level_1"
+				},
+				{
+					"items": [
+						{
+							"name": "2-08.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 517149659804021,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "2-09.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 511239891527076,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "2-10.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 746457463323552,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "2-05.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 888733437070098,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "2-03.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 221219395989672,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "2-04.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 934492844995347,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "2-01.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 486247210393611,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "2-06.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 105702955729843,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "2-02.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 446318634759716,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "2-07.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 209011996958413,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "2-00.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 598411146482925,
+							"file-info": {
+								"purpose": "none"
+							}
+						}
+					],
+					"subfolders": [],
+					"name": "Level_2"
+				},
+				{
+					"items": [
+						{
+							"name": "3-07.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 206275950425358,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "3-08.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 926877950692118,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "3-09.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 726409009071793,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "3-06.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 442371121338020,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "3-02.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 520560459202055,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "3-04.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 590942198149118,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "3-00.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 590701374345895,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "3-05.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 881207767804107,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "3-03.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 279887289060337,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "3-01.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 559530649776615,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "3-10.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 283939289761203,
+							"file-info": {
+								"purpose": "none"
+							}
+						}
+					],
+					"subfolders": [],
+					"name": "Level_3"
+				},
+				{
+					"items": [
+						{
+							"name": "4-08.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 322243280498385,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "4-09.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 525233477103759,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "4-07.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 866391218568257,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "4-06.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 525219277666517,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "4-05.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 780252368536674,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "4-04.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 141995227524724,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "4-03.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 657202843768617,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "4-02.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 563274339883858,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "4-00.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 203472388274826,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "4-01.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 131193775366780,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "4-10.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 294476951174078,
+							"file-info": {
+								"purpose": "none"
+							}
+						}
+					],
+					"subfolders": [],
+					"name": "Level_4"
+				},
+				{
+					"items": [
+						{
+							"name": "5-10.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 122941075815631,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "5-08.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 395620896841743,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "5-09.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 243985871521257,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "5-07.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 256182639481269,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "5-06.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 501411023312655,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "5-05.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 496861782202144,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "5-04.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 761601787593669,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "5-03.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 220914050578197,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "5-02.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 976349714837838,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "5-01.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 785269768085277,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "5-00.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 196134965925650,
+							"file-info": {
+								"purpose": "none"
+							}
+						}
+					],
+					"subfolders": [],
+					"name": "Level_5"
+				},
+				{
+					"items": [
+						{
+							"name": "6-09.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 858930331439889,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "6-07.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 870309252321374,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "6-08.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 446787701677911,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "6-03.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 984803875347730,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "6-04.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 515475484908759,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "6-06.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 857561853998288,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "6-05.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 984703702286102,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "6-02.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 604322109098919,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "6-00.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 865326673434477,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "6-01.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 986539359240877,
+							"file-info": {
+								"purpose": "none"
+							}
+						},
+						{
+							"name": "6-10.webm",
+							"type": "audio/webm; codecs=opus",
+							"sid": 172420162378797,
+							"file-info": {
+								"purpose": "none"
+							}
+						}
+					],
+					"subfolders": [],
+					"name": "Level_6"
+				},
+				{
+					"items": [],
+					"subfolders": [],
+					"name": "G"
+				}
+			]
 		},
 		"music": {
 			"items": [],

@@ -5,11 +5,21 @@
 			"eventType": "variable",
 			"name": "Level",
 			"type": "number",
-			"initialValue": "79",
+			"initialValue": "9",
 			"comment": "",
 			"isStatic": false,
 			"isConstant": false,
 			"sid": 926961259999986
+		},
+		{
+			"eventType": "variable",
+			"name": "fixedLevel",
+			"type": "number",
+			"initialValue": "0",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 541428984389649
 		},
 		{
 			"eventType": "variable",
@@ -43,6 +53,14 @@
 						"variable": "backgroundSound",
 						"value": "Browser.QueryParam(\"backgroundSound\")"
 					}
+				},
+				{
+					"id": "check-item-exists",
+					"objectClass": "LocalStorage",
+					"sid": 742430032657030,
+					"parameters": {
+						"key": "\"Level\""
+					}
 				}
 			],
 			"sid": 755802767063843
@@ -71,6 +89,55 @@
 				}
 			],
 			"sid": 194700370476065
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-item-exists",
+					"objectClass": "LocalStorage",
+					"sid": 895474702990557,
+					"parameters": {
+						"key": "\"Level\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "get-item",
+					"objectClass": "LocalStorage",
+					"sid": 401464983429799,
+					"parameters": {
+						"key": "\"Level\""
+					}
+				}
+			],
+			"sid": 690414649289785
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-item-get",
+					"objectClass": "LocalStorage",
+					"sid": 742060582041090,
+					"parameters": {
+						"key": "\"Level\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"sid": 581691246936803,
+					"parameters": {
+						"variable": "fixedLevel",
+						"value": "LocalStorage.ItemValue"
+					}
+				}
+			],
+			"sid": 236490369681706
 		}
 	],
 	"sid": 147291535081139
