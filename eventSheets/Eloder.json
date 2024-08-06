@@ -5,7 +5,7 @@
 			"eventType": "variable",
 			"name": "Level",
 			"type": "number",
-			"initialValue": "9",
+			"initialValue": "0",
 			"comment": "",
 			"isStatic": false,
 			"isConstant": false,
@@ -23,6 +23,16 @@
 		},
 		{
 			"eventType": "variable",
+			"name": "sound",
+			"type": "number",
+			"initialValue": "0",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 534211609857020
+		},
+		{
+			"eventType": "variable",
 			"name": "backgroundSound",
 			"type": "number",
 			"initialValue": "1",
@@ -30,6 +40,16 @@
 			"isStatic": false,
 			"isConstant": false,
 			"sid": 827231532576148
+		},
+		{
+			"eventType": "variable",
+			"name": "academicLevel",
+			"type": "number",
+			"initialValue": "0",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 647655082625497
 		},
 		{
 			"eventType": "block",
@@ -63,7 +83,88 @@
 					}
 				}
 			],
-			"sid": 755802767063843
+			"sid": 755802767063843,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-two-values",
+							"objectClass": "System",
+							"sid": 837955835474464,
+							"parameters": {
+								"first-value": "Browser.QueryParam(\"academicLevel\")",
+								"comparison": 0,
+								"second-value": "\"\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 558960072323516,
+							"parameters": {
+								"variable": "academicLevel",
+								"value": "0"
+							}
+						}
+					],
+					"sid": 311044864041575
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 349051732048039
+						}
+					],
+					"actions": [
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 218132424246648,
+							"parameters": {
+								"variable": "academicLevel",
+								"value": "Browser.QueryParam(\"academicLevel\")"
+							}
+						}
+					],
+					"sid": 198197661853182
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 849719455628535,
+							"parameters": {
+								"variable": "backgroundSound",
+								"comparison": 0,
+								"value": "1"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "play",
+							"objectClass": "Audio",
+							"sid": 407913031404847,
+							"parameters": {
+								"audio-file": "loop-music-for-the-games",
+								"loop": "looping",
+								"volume": "0",
+								"stereo-pan": "0",
+								"tag-optional": "\"\""
+							}
+						}
+					],
+					"sid": 429599077933810
+				}
+			]
 		},
 		{
 			"eventType": "block",
@@ -78,17 +179,97 @@
 					}
 				}
 			],
-			"actions": [
+			"actions": [],
+			"sid": 194700370476065,
+			"children": [
 				{
-					"id": "go-to-layout",
-					"objectClass": "System",
-					"sid": 223294931476196,
-					"parameters": {
-						"layout": "Game"
-					}
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 192750525221124,
+							"parameters": {
+								"variable": "academicLevel",
+								"comparison": 0,
+								"value": "0"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "go-to-layout",
+							"objectClass": "System",
+							"sid": 387639609761160,
+							"parameters": {
+								"layout": "Game"
+							}
+						}
+					],
+					"sid": 191681164140753,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [],
+							"sid": 956235818328165
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 619893890644663,
+							"parameters": {
+								"variable": "academicLevel",
+								"comparison": 1,
+								"value": "0"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 856665524524424,
+							"parameters": {
+								"variable": "fixedLevel",
+								"value": "academicLevel - 1"
+							}
+						},
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 189871209157762,
+							"parameters": {
+								"variable": "Level",
+								"value": "fixedLevel * 10 "
+							}
+						},
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 142897927686330,
+							"parameters": {
+								"variable": "sound",
+								"value": "fixedLevel"
+							}
+						},
+						{
+							"id": "go-to-layout",
+							"objectClass": "System",
+							"sid": 985383101321969,
+							"parameters": {
+								"layout": "Game"
+							}
+						}
+					],
+					"sid": 289032571488995
 				}
-			],
-			"sid": 194700370476065
+			]
 		},
 		{
 			"eventType": "block",
@@ -135,9 +316,74 @@
 						"variable": "fixedLevel",
 						"value": "LocalStorage.ItemValue"
 					}
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"sid": 343718691180684,
+					"parameters": {
+						"variable": "Level",
+						"value": "fixedLevel * 10 "
+					}
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"sid": 263840361555309,
+					"parameters": {
+						"variable": "sound",
+						"value": "fixedLevel"
+					}
 				}
 			],
-			"sid": 236490369681706
+			"sid": 236490369681706,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 424710185494400,
+							"parameters": {
+								"variable": "fixedLevel",
+								"comparison": 4,
+								"value": "9"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 472082371118813,
+							"parameters": {
+								"variable": "fixedLevel",
+								"value": "9"
+							}
+						},
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 128335002287259,
+							"parameters": {
+								"variable": "Level",
+								"value": "fixedLevel * 10 "
+							}
+						},
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 898286556421858,
+							"parameters": {
+								"variable": "sound",
+								"value": "fixedLevel"
+							}
+						}
+					],
+					"sid": 646907785699219
+				}
+			]
 		}
 	],
 	"sid": 147291535081139

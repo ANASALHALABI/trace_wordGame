@@ -4,39 +4,33 @@
 	"sid": 185661728893313,
 	"isGlobal": false,
 	"instanceVariables": [],
-	"behaviorTypes": [],
+	"behaviorTypes": [
+		{
+			"behaviorId": "Tween",
+			"name": "Tween",
+			"sid": 713726571459602
+		}
+	],
 	"effectTypes": [],
 	"animations": {
 		"items": [
 			{
 				"frames": [
 					{
-						"width": 1998,
-						"height": 1125,
+						"width": 2353,
+						"height": 1319,
 						"originX": 0.5,
 						"originY": 0.5,
 						"originalSource": "",
 						"exportFormat": "lossless",
 						"exportQuality": 0.8,
-						"imageSpriteId": 9612112,
-						"collisionPoly": {
-							"points": [
-								0,
-								0,
-								1,
-								0,
-								1,
-								0.9992418498862775,
-								0,
-								0.9992418498862775
-							]
-						},
+						"imageSpriteId": 4270596,
 						"useCollisionPoly": true,
 						"imagePoints": [
 							{
 								"name": "Image Point 1",
 								"x": 0.5,
-								"y": 0.8444444444444444
+								"y": 0.7581501137225171
 							}
 						],
 						"duration": 1,

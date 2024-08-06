@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;  /* Full width */
-    height: 100%; /* Full height */
+     /* Full height */
      overflow: hidden;/* Prevents overflow */
 	 margin: 0;
 	 padding: 0;
@@ -21,9 +21,3 @@
     aspect-ratio: 1;
 	/* Optional: Ensures the SVG keeps a 1:1 aspect ratio */
 }
-
-
-.fade-out {
-    transition: opacity 2s ease-out;
-    opacity: 0;
-  }

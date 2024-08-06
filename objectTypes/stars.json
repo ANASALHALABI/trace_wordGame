@@ -1,0 +1,86 @@
+{
+	"name": "stars",
+	"plugin-id": "Sprite",
+	"sid": 172555614115655,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [
+		{
+			"behaviorId": "Sin",
+			"name": "Sine",
+			"sid": 447237941215017
+		},
+		{
+			"behaviorId": "Sin",
+			"name": "Sine2",
+			"sid": 191983979231088
+		},
+		{
+			"behaviorId": "Sin",
+			"name": "Sine3",
+			"sid": 736916492223507
+		},
+		{
+			"behaviorId": "Sin",
+			"name": "Sine4",
+			"sid": 992333484387667
+		},
+		{
+			"behaviorId": "Tween",
+			"name": "Tween",
+			"sid": 420535785637971
+		}
+	],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 1463,
+						"height": 823,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "",
+						"exportFormat": "lossless",
+						"exportQuality": 0.8,
+						"imageSpriteId": 5810612,
+						"collisionPoly": {
+							"points": [
+								0.9993164730006835,
+								0.04495747266099635,
+								0.9145591250854409,
+								0.8213851761846902,
+								0.8885850991114149,
+								0.9222357229647631,
+								0.8503075871496925,
+								0.9987849331713244,
+								0.10799726589200273,
+								0.968408262454435,
+								0.043745727956254275,
+								0.9538274605103281,
+								0.000683526999316473,
+								0.8930741190765492,
+								0.053998632946001365,
+								0.1421628189550425,
+								0.08339029391660971,
+								0.015795868772782502
+							]
+						},
+						"useCollisionPoly": true,
+						"duration": 1,
+						"tag": ""
+					}
+				],
+				"sid": 943612224500885,
+				"name": "Animation 1",
+				"isLooping": false,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 0
+			}
+		],
+		"subfolders": []
+	}
+}

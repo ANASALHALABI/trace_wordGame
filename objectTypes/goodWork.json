@@ -1,0 +1,60 @@
+{
+	"name": "goodWork",
+	"plugin-id": "Sprite",
+	"sid": 320263584984683,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [
+		{
+			"behaviorId": "Tween",
+			"name": "Tween",
+			"sid": 963640985607400
+		}
+	],
+	"effectTypes": [],
+	"animations": {
+		"items": [
+			{
+				"frames": [
+					{
+						"width": 984,
+						"height": 312,
+						"originX": 0.5,
+						"originY": 0.5,
+						"originalSource": "",
+						"exportFormat": "lossless",
+						"exportQuality": 0.8,
+						"imageSpriteId": 7936756,
+						"collisionPoly": {
+							"points": [
+								0.9898373983739838,
+								0.08974358974358974,
+								0.9400406504065041,
+								0.9935897435897436,
+								0.04878048780487805,
+								0.9326923076923075,
+								0.019308943089430895,
+								0.8525641025641025,
+								0.021341463414634176,
+								0.42948717948717946,
+								0.1209349593495935,
+								0.24358974358974358
+							]
+						},
+						"useCollisionPoly": true,
+						"duration": 1,
+						"tag": ""
+					}
+				],
+				"sid": 195134127780393,
+				"name": "Animation 1",
+				"isLooping": false,
+				"isPingPong": false,
+				"repeatCount": 1,
+				"repeatTo": 0,
+				"speed": 0
+			}
+		],
+		"subfolders": []
+	}
+}

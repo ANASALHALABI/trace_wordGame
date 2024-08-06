@@ -189,6 +189,27 @@
 									"parameters": {
 										"frame-number": "1"
 									}
+								},
+								{
+									"id": "create-object",
+									"objectClass": "System",
+									"sid": 537237370879619,
+									"parameters": {
+										"object-to-create": "levelSelectorNumber",
+										"layer": "1",
+										"x": "levelPlace.X",
+										"y": "levelPlace.Y",
+										"create-hierarchy": false,
+										"template-name": "\"\""
+									}
+								},
+								{
+									"id": "set-animation-frame",
+									"objectClass": "levelSelectorNumber",
+									"sid": 758402892727750,
+									"parameters": {
+										"frame-number": "levelPlace.id"
+									}
 								}
 							],
 							"sid": 410925290762934
@@ -215,50 +236,87 @@
 									"parameters": {
 										"frame-number": "2"
 									}
-								}
-							],
-							"sid": 202964187363251
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "levelPlace",
-									"sid": 271703628054647,
-									"parameters": {
-										"instance-variable": "id",
-										"comparison": 4,
-										"value": "fixedLevel"
-									}
-								}
-							],
-							"actions": [
+								},
 								{
 									"id": "create-object",
 									"objectClass": "System",
-									"sid": 398495222820303,
+									"sid": 363687797261531,
 									"parameters": {
-										"object-to-create": "look",
+										"object-to-create": "levelSelectorNumber",
 										"layer": "1",
 										"x": "levelPlace.X",
 										"y": "levelPlace.Y",
 										"create-hierarchy": false,
 										"template-name": "\"\""
 									}
+								},
+								{
+									"id": "set-animation-frame",
+									"objectClass": "levelSelectorNumber",
+									"sid": 723076752327156,
+									"parameters": {
+										"frame-number": "levelPlace.id"
+									}
 								}
 							],
-							"sid": 104776272600900
+							"sid": 202964187363251
 						}
 					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [],
-					"actions": [],
-					"sid": 703510294802053
 				}
 			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-touched-object",
+					"objectClass": "Touch",
+					"sid": 878951562255328,
+					"parameters": {
+						"object": "levelPlace",
+						"type": "start"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "levelPlace",
+					"sid": 997843166893129,
+					"parameters": {
+						"instance-variable": "id",
+						"comparison": 3,
+						"value": "Level"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "go-to-layout",
+					"objectClass": "System",
+					"sid": 450982661381189,
+					"parameters": {
+						"layout": "Game"
+					}
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"sid": 535648739096535,
+					"parameters": {
+						"variable": "sound",
+						"value": "levelPlace.id "
+					}
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"sid": 353025316755863,
+					"parameters": {
+						"variable": "Level",
+						"value": "levelPlace.id * 10"
+					}
+				}
+			],
+			"sid": 237176292852819
 		}
 	],
 	"sid": 570718383348447

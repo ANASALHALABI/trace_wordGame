@@ -97,8 +97,8 @@
 					"world": {
 						"x": 176,
 						"y": -314,
-						"width": 222,
-						"height": 218,
+						"width": 223,
+						"height": 219,
 						"originX": 0.5,
 						"originY": 0.5,
 						"color": [
@@ -112,7 +112,7 @@
 					}
 				},
 				{
-					"type": "look",
+					"type": "levelSelectorNumber",
 					"properties": {
 						"initially-visible": true,
 						"initial-animation": "Animation 1",
@@ -120,14 +120,14 @@
 						"enable-collisions": true,
 						"live-preview": false
 					},
-					"uid": 19,
+					"uid": 7,
 					"instanceVariables": {},
 					"behaviors": {},
 					"world": {
-						"x": -171,
-						"y": -263,
-						"width": 79,
-						"height": 96,
+						"x": 628,
+						"y": -341,
+						"width": 63,
+						"height": 111,
 						"originX": 0.5,
 						"originY": 0.5,
 						"color": [
